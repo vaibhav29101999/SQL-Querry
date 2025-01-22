@@ -1,0 +1,128 @@
+show databases;
+create database bosscoder;
+use bosscoder;
+
+-- DDL (DATA DEFINATION LANGUAGES)
+-- CREATE A TABLE 
+-- create table table_name (column 1 datatype, column 2 datatype)
+DROP TABLE IF EXISTS employees;
+
+create table employees (
+employee_ID INT, 
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+department_ID INT, 
+salary DECIMAL(10,4),
+hire_date DATE
+);
+
+-- insert data into the employee table
+-- insert into table_name(column_name) values
+-- (row 1),
+-- (row 2);
+
+insert into employees(employee_ID, first_name, last_name, department_ID, salary, hire_date)
+values
+(1, "vaibhav", "Kadu", 1, 40000, '2025-01-02'),
+(2, "vrushabh", "Kadu", 2, 35000, '2025-01-19'),
+(3, "akash", "yete", 2, 10000, '2025-01-12'),
+(4, "rupesh", "tekam", 6, 15000, '2025-01-23'),
+(5, "akshay", "khadse", 4, 20000, '2025-01-26'),
+(6, "pranay", "fulzele", 5, 35000, '2025-01-19'),
+(7, "sahil", "pathan", 7, 25000, '2025-01-29'),
+(8, "shubham", "zape", 2, 38000, '2025-01-08'),
+(9, "rohit", "sharma", 8, 400000, '2025-01-22'),
+(10, "virat", "kohli", 10, 450000, '2025-01-25');
+
+-- select
+-- from 
+-- where
+-- group by 
+-- having
+-- order by 
+-- limit  these are data clauses 
+
+select employee_ID, first_name, last_name, department_ID, salary, hire_date
+from employees;
+
+-- select all the columns from a table
+SELECT * 
+from employees;
+
+-- select specific columns 
+-- select employee_ID, salary, first_name, last_name
+-- from employees;
+
+-- select first_name, last_name
+-- from employees;
+
+-- DDL commands 
+-- add a new column
+
+alter table employees add column email VARCHAR(50);
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE employees
+SET email = CONCAT(LOWER(first_name), '.', LOWER(last_name), '@gmail.com')
+WHERE employee_ID IS NOT NULL;
+
+-- SELECT employee_ID, first_name, last_name, email FROM employees;
+select * from employees;
+
+-- if we want to update specific email then following querry will help 
+UPDATE employees
+SET email = 'virat@yahoo.com'
+WHERE employee_ID = 10;
+
+UPDATE employees
+SET email = 'rushya2@comcast.net'
+WHERE employee_ID = 2;
+
+-- {Below we have created  manual emails but we have'nt use those...
+-- ('vkadu050@gmail.com'),
+-- ('vrushabhkadu050@gmail.com'),
+-- ('akash@gmail.com'),
+-- ('rupesh@gmail.com'),
+-- ('akshay@gmail.com'),
+-- ('pranay@gmail.com'),
+-- ('sahil@gmail.com'),
+-- ('shubham@gmail.com'),
+-- ('rohit@gmail.com'),
+-- ('virat@gmail.com');}
+
+select * from employees;
+
+
+-- use of WHERE CLAUSE
+-- select column from table_name where condition;
+
+select * from employees where salary = 40000;
+
+-- retrive all the data who earn more than 25000
+select * from employees where salary > 25000;
+
+-- employee who's ID is not 3 
+-- select * from employees where employee_ID <> 3;
+-- select * from employees where employee_ID != 3;  -- this and above are the same Querry
+
+-- If we want even employee_ID's then 
+select * from employees where employee_ID % 2 = 0;
+
+select * from employees;
+-- Logical operators (and, or, not)
+-- retrive the employee details who are department id 2 and salary 25000 
+select * from employees where department_ID = 2 and salary > 25000;
+select * from employees where department_ID = 2 or salary > 25000;
+select * from employees where not department_ID = 2 ;
+
+-- PRACTICE QUESTION
+-- select employees who are not in department 2 who's salary is greater than or equal to 30000
+select * from employees where not department_ID = 2 and salary > 30000;
+
+-- 1. select employees whos salary is greater than 20000
+-- 2. select employees who's hired after january 01 2020 and who salary less than or equal to 30000
+-- 3. select the employees whos salary lies between 20000 to 50000
+select * from employees where salary >20000;
+select * from employees where hire_date > '2020/01/01' and salary <= 40000;
+select * from employees where salary > 20000 and salary <50000;
