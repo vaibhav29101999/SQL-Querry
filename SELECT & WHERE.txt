@@ -1,0 +1,118 @@
+-- SELECT & WHERE 
+SHOW DATABASES;
+
+USE bosscoder;
+describe employees;
+
+alter table employees
+drop column country,
+drop column PinCode;
+
+alter table employees
+add column country VARCHAR(15),
+add column PinCode INT;
+describe employees;
+
+update employees
+set country = 'India'
+where department_ID = 2;
+update employees
+set country = 'UK'
+where department_ID = 1;
+update employees
+set country = 'USA'
+where department_ID > 3;
+
+update employees set PinCode = 302020 where country = 'India';
+update employees set PinCode = 292910 where country = 'USA';
+update employees set PinCode = 998832 where country = 'UK';
+select * FROM employees;
+
+-- How to change datatypes after creating the table
+-- alter table table_name
+-- modify column column_name new_data_type;
+
+
+-- HOME WORK FOR THE DAY
+-- retrieve the employees who was hired between jan-01-2020 and dec-31-2020
+select * from employees where hire_date between '2020-01-01' and 2020-12-31;
+
+-- retrieve the employees whose employee_ID is between 1 and 6
+select * from employees where employee_ID between 1 and 6;
+
+-- LIKE OPERATOR
+-- select * from table where column like pattern 
+-- retrive all employees whose first name starts with values
+select * from employees where first_name like 'V%';
+-- retrive all employees whose name contains r in their first names
+select * from employees where first_name like '%r%';
+-- retrive all employees whose first name ends with t
+select * from employees where first_name like '%t';
+
+-- HOME WORK 
+-- retrive the employees having both a and v in their first name 
+-- retrive the employees having either 'e' in their first name or in the last name
+--  retrive the employees with invalid email ID's
+select * from employees where first_name like '%av%';
+select * from employees where first_name or last_name like '%e%';
+
+use bosscoder;
+select * from employees where email not like '%.com';
+select * from employees where email not like '%@%.com';
+
+-- underscore --> matches exactly one character
+select * from employees where first_name like '_a%';
+select * from employees where last_name like '_a%';
+
+-- 1. retrive the employees whose first name 5 character long and starts with ro
+select * from employees where first_name like 'ro%';
+
+-- 2. retrive the employees whose first name contain a and b there should be only character between them 
+select * from employees where first_name like '%a_b%';
+
+-- 3. retrive the employees whose last name does not start with 'F'
+select * from employees where last_name not like 'f%';
+select * from employees where last_name not like 'Z%';
+
+-- 4. find the employees with an valid emails that has comcast domain
+select * from employees where email like '%comcast%';
+select * from employees where email like '%@comcast.net';
+
+-- 5. find the employees with the email domain 'gmail.com' or 'comcast.net'
+select * from employees where email like '%@GMAIL.com' or email like '%@comcast.net';
+
+-- 6. FIND employees with 2 a in their first name but not right after each other
+select * from employees where first_name like '%a%_a%';
+
+-- IN OPERATOR it is membership operator
+-- syntax  --> select * from table where column in (value1, value2, value3,....)
+select * from employees where department_ID in (1,2);  -- get the data whose dept.ID is 1,2 
+select * from employees where first_name in ('vaibhav','vrushabh', 'rohit');
+
+-- NOT IN exactly opposite the IN 
+select * from employees where department_ID NOT in (1,2);  -- get the data whose dept.ID is not 1,2 
+select * from employees where first_name not in ('vaibhav','vrushabh', 'rohit'); 
+
+-- multiple columns 
+select * from employees where (first_name, last_name) in (('vaibhav', 'kadu'), ('sahil', 'pathan'));
+select * from employees where (first_name, last_name) not in (('vaibhav', 'kadu'), ('sahil', 'pathan'));
+
+-- 7. find the employees whos last name is either kohli or kadu who ware hired in 2025
+select * from employees where last_name in ('kohli', 'KADU') and hire_date like '2025%';
+
+-- 8. find the employees last name contains vowels and who are in dept. 1,2,3
+select * from employees where( 
+					    last_name like '%a%'
+					 or last_name like '%e%'
+                     or last_name like '%i%'
+                     or last_name like '%o%'
+                     or last_name like '%u%') and department_ID in (1,2,3);
+
+-- 9. find the employee who were hired in 2025 and have a salary in range of 40000, 60000, 70000. 
+select * from employees where hire_date like '2025%' and salary in (40000, 60000, 70000);
+
+-- 10. find the employees whoes email start with first name 
+select * from employees where email like concat(first_name, '%');
+-- 11. find the employee who were hired in 2025
+select * from employees where hire_date like '2025%';
+select * from employees where year (hire_date)= 2025;
